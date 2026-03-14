@@ -1,3 +1,5 @@
+accounts = []
+next_id = 1
 
 def create_account(name, balance=0):
     global next_id
