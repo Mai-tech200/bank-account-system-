@@ -1,0 +1,94 @@
+
+def create_account(name, balance=0):
+    global next_id
+    account = {
+        "id": next_id,
+        "name": name,
+        "balance": balance,
+        "transactions": []
+    }
+    accounts.append(account)
+    next_id += 1
+    print(f"Account created! Your ID is: {account['id']}")
+
+def find_account(account_id):
+    for account in accounts:
+        if account["id"] == account_id:
+            return account
+    return None
+
+def deposit(account_id, amount):
+    account = find_account(account_id)
+    if account is None:
+        print("Account not found!")
+        return
+    account["balance"] += amount
+    account["transactions"].append(f"Deposit: +{amount}")
+    print(f"Deposited {amount}. New balance: {account['balance']}")
+
+def withdraw(account_id, amount):
+    account = find_account(account_id)
+    if account is None:
+        print("Account not found!")
+        return
+    if amount > account["balance"]:
+        print("Insufficient balance!")
+        return
+    account["balance"] -= amount
+    account["transactions"].append(f"Withdraw: -{amount}")
+    print(f"Withdrew {amount}. New balance: {account['balance']}")
+
+def check_balance(account_id):
+    account = find_account(account_id)
+    if account is None:
+        print("Account not found!")
+        return
+    print(f"Account: {account['name']} | Balance: {account['balance']}")
+
+def show_transactions(account_id):
+    account = find_account(account_id)
+    if account is None:
+        print("Account not found!")
+        return
+    print(f"Transactions for {account['name']}:")
+    if len(account["transactions"]) == 0:
+        print("No transactions yet.")
+    for t in account["transactions"]:
+        print(" -", t)
+
+def show_menu():
+    print("\n==== Bank Account System ====")
+    print("1. Create Account")
+    print("2. Deposit")
+    print("3. Withdraw")
+    print("4. Check Balance")
+    print("5. Show Transactions")
+    print("6. Exit")
+
+while True:
+    show_menu()
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        name = input("Enter name: ")
+        balance = float(input("Enter initial balance: "))
+        create_account(name, balance)
+    elif choice == "2":
+        aid = int(input("Enter account ID: "))
+        amount = float(input("Enter amount: "))
+        deposit(aid, amount)
+    elif choice == "3":
+        aid = int(input("Enter account ID: "))
+        amount = float(input("Enter amount: "))
+        withdraw(aid, amount)
+    elif choice == "4":
+        aid = int(input("Enter account ID: "))
+        check_balance(aid)
+    elif choice == "5":
+        aid = int(input("Enter account ID: "))
+        show_transactions(aid)
+    elif choice == "6":
+        print("Goodbye!")
+        break
+    else:
+        print("Invalid choice!")
